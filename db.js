@@ -16,21 +16,20 @@ function getTopPlayers(limit = 10) {
     return db.prepare(`
     SELECT
         p.player_name,
-        best.player_api_id,
+        p.player_api_id,
         best.best_rating,
-        CAST((julianday(MAX(pa.date)) - julianday(p.birthday)) / 365.25 AS INT) AS age_at_rating
-    FROM (
+        CAST((julianday(MAX(pa.date)) - julianday(p.birthday)) / 365.25 AS INT) AS age_at_rating,
+        p.birthday
+    FROM Player p
+    JOIN (
         SELECT
             player_api_id,
             MAX(overall_rating) AS best_rating
         FROM Player_Attributes
         GROUP BY player_api_id
-    ) best
-    JOIN Player p
-        ON p.player_api_id = best.player_api_id
-    JOIN Player_Attributes pa
-        ON pa.player_api_id = best.player_api_id
-    GROUP BY best.player_api_id, p.player_name, best.best_rating, p.birthday
+    ) best ON p.player_api_id = best.player_api_id
+    JOIN Player_Attributes pa ON pa.player_api_id = p.player_api_id
+    GROUP BY p.player_api_id
     ORDER BY best.best_rating DESC
     LIMIT ?
   `).all(limit);
