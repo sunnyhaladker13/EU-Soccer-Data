@@ -17,6 +17,8 @@ export function TopMenu({ title = 'Default Title', children }: TopMenuProps) {
     fetch('http://localhost:3000/api/top-players')
       .then((res) => res.json())
       .then((data) => {
+        console.log('Fetched PLayers', data);
+        console.log('First player Keys:', Object.keys(data[0] || {}));
         console.log('Fetched players:', data);
         setPlayers(data);
       })

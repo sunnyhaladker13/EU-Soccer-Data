@@ -22,9 +22,12 @@
   "dependencies": {
     "@mantine/core": "8.3.10",
     "@mantine/hooks": "8.3.10",
+    "@recharts/devtools": "^0.0.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.4"
+    "react-feather": "^2.0.10",
+    "react-router-dom": "^7.9.4",
+    "recharts": "^3.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",

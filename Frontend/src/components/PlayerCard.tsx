@@ -5,6 +5,7 @@ export interface Player {
   player_api_id: number;
   best_rating: number;
   age_at_rating: number;
+  birthday: string;
 }
 
 interface PlayerCardProps {
@@ -12,6 +13,22 @@ interface PlayerCardProps {
   onClick?: (player: Player) => void;
   isSelected?: boolean;
 }
+
+const formatDate = (dateString: string) => {
+  console.log('Raw birthday value', dateString, typeof dateString)
+  if (!dateString) return 'N/A';
+
+  const datePart = dateString.split(' ')[0];
+  const date = new Date(datePart);
+
+  if (isNaN(date.getTime())) return dateString;
+
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+};
 
 export function PlayerCard({ player, onClick, isSelected }: PlayerCardProps) {
   const handleClick = () => {
@@ -39,7 +56,8 @@ export function PlayerCard({ player, onClick, isSelected }: PlayerCardProps) {
         <Stack gap={0}>
           <Text fw={800} c='#6FA5F4'>{player.player_name} </Text>
           <Text fz={14} fw={300}>
-            {player.age_at_rating}
+            {/* {player.age_at_rating} */}
+            {formatDate(player.birthday)}
           </Text>
         </Stack>
         <Badge variant="light" color="pink" fz={14} size="lg">
