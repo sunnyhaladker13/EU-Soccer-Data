@@ -2,9 +2,29 @@ import { ArrowUpRight } from 'react-feather';
 import { Badge, Box, Button, Card, Group, Image, Stack, Text } from '@mantine/core';
 import SimpleRadarChart from './RadarChart';
 
-// import { PlayerRating } from './RadarChart';
+export interface PlayerInfo {
+  player_name: string;
+  age: number;
+  height_ft: number;
+  weight_kg: number;
+  overall_rating: number;
+  potential: number;
+  preferred_foot: string;
+  shooting: number;
+  passing: number;
+  dribbling: number;
+  defending: number;
+}
 
-export function PlayerOverviewCard() {
+interface PlayerInfoProps {
+  PlayerInfo: PlayerInfo;
+}
+
+export function PlayerOverviewCard({ PlayerInfo }: PlayerInfoProps) {
+  if (!PlayerInfo) {
+    return <Text>Loading player data...</Text>
+  }
+  
   return (
     <>
       <Group gap={0} align="stretch" justify="center">
@@ -22,7 +42,7 @@ export function PlayerOverviewCard() {
                   FC Barcelona
                 </Badge>
                 <Text fz={45} fw={800} lh={1}>
-                  Norway Fjord
+                  {PlayerInfo.player_name}
                 </Text>
               </Stack>
               <Group>
@@ -30,25 +50,25 @@ export function PlayerOverviewCard() {
                   <Text fz="sm" fw={400} c="#677489">
                     AGE
                   </Text>
-                  <Text fw={800}>39</Text>
+                  <Text fw={800}>{PlayerInfo.age}</Text>
                 </Stack>
                 <Stack gap={1}>
                   <Text fz="sm" fw={400} c="#677489">
-                    HEIGHT
+                    HIGHT
                   </Text>
-                  <Text fw={800}>170cm</Text>
+                  <Text fw={800}>{PlayerInfo.height_ft}ft</Text>
                 </Stack>
                 <Stack gap={1}>
                   <Text fz="sm" fw={400} c="#677489">
                     WEIGHT
                   </Text>
-                  <Text fw={800}>72kg</Text>
+                  <Text fw={800}>{PlayerInfo.weight_kg}kg</Text>
                 </Stack>
                 <Stack gap={1}>
                   <Text fz="sm" fw={400} c="#677489">
                     FOOT
                   </Text>
-                  <Text fw={800}>Left</Text>
+                  <Text fw={800}>{PlayerInfo.preferred_foot}</Text>
                 </Stack>
               </Group>
             </Stack>
@@ -69,13 +89,13 @@ export function PlayerOverviewCard() {
               }}
             >
               <Text fz={45} fw={800}>
-                94
+                {PlayerInfo.overall_rating}
               </Text>
             </Box>
             <Group gap={8} align="center">
               <Text>Potential</Text>
               <Text fz={18} fw={800}>
-                95
+                {PlayerInfo.potential}
                 <ArrowUpRight size={16} />
               </Text>
             </Group>

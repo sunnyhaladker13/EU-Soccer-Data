@@ -1,14 +1,15 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { AppShell, Group, Stack } from '@mantine/core';
+import { AppShell, Card, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Player, PlayerCard } from './PlayerCard';
 
 interface TopMenuProps {
   title?: string;
   children: ReactNode;
+  onPlayerSelect?: (player: Player) => void;
 }
 
-export function TopMenu({ title = 'Default Title', children }: TopMenuProps) {
+export function TopMenu({ title = 'Default Title', children, onPlayerSelect }: TopMenuProps) {
   const [opened, { toggle }] = useDisclosure();
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
@@ -17,13 +18,19 @@ export function TopMenu({ title = 'Default Title', children }: TopMenuProps) {
     fetch('http://localhost:3000/api/top-players')
       .then((res) => res.json())
       .then((data) => {
-        console.log('Fetched PLayers', data);
-        console.log('First player Keys:', Object.keys(data[0] || {}));
-        console.log('Fetched players:', data);
         setPlayers(data);
+        if (data.length > 0) {
+          setSelectedPlayer(data[0]);
+          onPlayerSelect?.(data[0]);
+        }
       })
       .catch((err) => console.error('Error fetching players:', err));
   }, []);
+
+  const handlePlayerClick = (player: Player) => {
+    setSelectedPlayer(player);
+    onPlayerSelect?.(player);
+  };
 
   return (
     <AppShell
@@ -61,11 +68,8 @@ export function TopMenu({ title = 'Default Title', children }: TopMenuProps) {
               key={player.player_api_id}
               player={player}
               isSelected={selectedPlayer?.player_api_id === player.player_api_id}
-              onClick={(selectedPlayer) => {
-                setSelectedPlayer(player);
-                console.log('Selected player:', selectedPlayer);
-                //todo: navigate to player dashboard using react router
-              }}
+              onClick={handlePlayerClick}
+              //todo: navigate to player dashboard using react router
             />
           ))}
         </Stack>

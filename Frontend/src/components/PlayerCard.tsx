@@ -15,7 +15,6 @@ interface PlayerCardProps {
 }
 
 const formatDate = (dateString: string) => {
-  console.log('Raw birthday value', dateString, typeof dateString)
   if (!dateString) return 'N/A';
 
   const datePart = dateString.split(' ')[0];

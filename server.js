@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const cors = require("cors");
-const { getAllFromTable, getTables, getTopPlayers } = require("./db");
+const { getAllFromTable, getTables, getTopPlayers, getPlayerAttributes } = require("./db");
 
 app.use(cors());
 app.use(express.json());
@@ -36,6 +36,19 @@ app.get('/api/:tableName', (req, res) => {
         res.status(500).json({error: error.message});
     }
 });
+
+// Route to get specefic player attributes
+app.get('/api/player/:id', (req, res) => {
+    try {
+        const playerId = parseInt(req.params.id);
+        const attributes = getPlayerAttributes(playerId);
+        if (attributes.length === 0) {
+            return res.status(404).json({error: 'Player not found'});
+        } res.status(200).json(attributes);
+    } catch (error) {
+        res.status(500).json({error: error.message });
+    }
+})
 
 app.listen(port, () => {
     console.log(`The port is running on ${port}`)
