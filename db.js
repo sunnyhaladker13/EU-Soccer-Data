@@ -56,6 +56,7 @@ SELECT
     Player_Attributes.overall_rating,
     Player_Attributes.potential,
     Player_Attributes.preferred_foot,
+    Player_Attributes.date,
 
 	    ((
              Player_Attributes.finishing +

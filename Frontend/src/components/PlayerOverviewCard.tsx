@@ -24,6 +24,13 @@ export function PlayerOverviewCard({ PlayerInfo }: PlayerInfoProps) {
   if (!PlayerInfo) {
     return <Text>Loading player data...</Text>
   }
+
+const radarData = [
+{ stat: 'Shooting', A: PlayerInfo.shooting * 100, fullMark: 100 },
+{ stat: 'Passing', A: PlayerInfo.passing * 100, fullMark: 100 },
+{ stat: 'Dribbling', A: PlayerInfo.dribbling * 100, fullMark: 100 },
+{ stat: 'Defending', A: PlayerInfo.defending * 100, fullMark: 100 },
+];
   
   return (
     <>
@@ -56,13 +63,13 @@ export function PlayerOverviewCard({ PlayerInfo }: PlayerInfoProps) {
                   <Text fz="sm" fw={400} c="#677489">
                     HIGHT
                   </Text>
-                  <Text fw={800}>{PlayerInfo.height_ft}ft</Text>
+                  <Text fw={800}>{PlayerInfo.height_ft.toFixed(1)}ft</Text>
                 </Stack>
                 <Stack gap={1}>
                   <Text fz="sm" fw={400} c="#677489">
                     WEIGHT
                   </Text>
-                  <Text fw={800}>{PlayerInfo.weight_kg}kg</Text>
+                  <Text fw={800}>{Math.round(PlayerInfo.weight_kg)}kg</Text>
                 </Stack>
                 <Stack gap={1}>
                   <Text fz="sm" fw={400} c="#677489">
@@ -107,7 +114,7 @@ export function PlayerOverviewCard({ PlayerInfo }: PlayerInfoProps) {
           radius="0 12px 12px 0"
           style={{ minHeight: '150px', minWidth: '300px' }}
         >
-          <SimpleRadarChart />
+          <SimpleRadarChart data={radarData} />
         </Card>
       </Group>
     </>
